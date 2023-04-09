@@ -58,7 +58,7 @@ export const updateUser = async (request: Request, response: Response) => {
   const existingId = await prisma.user.findUnique({ where: { id: String(id) } })
 
   if (!existingId) {
-    response.status(400).json({ error: 'Error ID não encontrado' });
+    throw new Error('Usuário não encontrado');
   }
 
   const {
@@ -86,7 +86,7 @@ export const deleteUser = async (request: Request, response: Response) => {
   const existingId = await prisma.user.findUnique({ where: { id: String(id) } })
 
   if (!existingId) {
-    response.status(400).json({ error: 'Error ID não encontrado' });
+    throw new Error('Usuário não encontrado');
   }
 
   await prisma.user.delete({

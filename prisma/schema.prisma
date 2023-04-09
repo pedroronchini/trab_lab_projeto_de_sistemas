@@ -19,3 +19,15 @@ model User {
   updated_at DateTime @default(now())
   created_at DateTime @default(now())
 }
+
+model Card {
+  id String @id
+  title String
+  labels String
+  tasks String
+  date DateTime
+  desc String
+  updated_at DateTime @default(now())
+  created_at DateTime @default(now())
+}
+
