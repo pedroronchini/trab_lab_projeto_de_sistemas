@@ -1,96 +1,74 @@
 import { Request, Response } from 'express';
-import { randomUUID } from 'node:crypto';
 
 import prisma from '../config';
 
-export const getCards = async (request: Request, response: Response) => {
-  const cards = await prisma.card.findMany();
-
-  response.status(200).json(cards);
-}
-
-export const getCardById = async (request: Request, response: Response) => {
-  const { id } = request.params;
-  
-  const card = await prisma.card.findUnique({ where: { id: String(id) } });
-  
-  response.status(200).json(card);
+// Get all boards
+export const getCards = async (req: Request, res: Response) => {
+  try {
+    const cards = await prisma.card.findMany();
+    res.status(200).json(cards);
+  } catch (error) {
+    res.status(500).json({ message: 'Error getting cards' });
+  }
 };
 
-export const createCard = async (request: Request, response: Response) => {
-  const id = randomUUID();
-  const {
-    title,
-    labels,
-    date,
-    tasks,
-    desc
-  } = request.body;
+// Create a new board
+export const createCard = async (req: Request, res: Response) => {
+  const { title, date, boardId } = req.body;
 
-  if (!title || !tasks) {
-    return response.status(400).json({ error: 'Todos os campos tem que estar preenchidos' })
+  try {
+    const card = await prisma.card.create({ 
+      data: { 
+        title, 
+        date, 
+        board: { connect: { id: boardId } } 
+      } 
+    });
+    res.status(201).json(card);
+  } catch (error) {
+    res.status(500).json({ message: 'Error creating card' });
   }
-
-  const card = await prisma.card.create({
-    data: {
-      id,
-      title,
-      labels,
-      date,
-      tasks,
-      desc
-    }
-  });
-
-  response.status(201).json(card);
 };
 
-export const updateCard = async (request: Request, response: Response) => {
-  const { id } = request.params;
-
-  const existingId = await prisma.card.findUnique({ where: { id: String(id) } })
-
-  if (!existingId) {
-    throw new Error('Card não encontrado');
-  }
-
-  const {
-    title,
-    labels,
-    date,
-    tasks,
-    desc
-  } = request.body;
-
-  await prisma.card.update({
-    where: {
-      id: String(id)
-    }, data: {
-      title,
-      labels,
-      date,
-      tasks,
-      desc
+// Get a Card by ID
+export const getCardById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const card = await prisma.card.findUnique({ where: { id: Number(id) } });
+    if (!card) { 
+      throw Error('Card not found');
     }
-  });
 
-  response.status(200).json({ message: "Card atualizado com sucesso!" });
+    res.status(200).json(card);
+  } catch (error) {
+    res.status(404).json({ message: 'Erro' });
+  }
 };
 
-export const deleteCard = async (request: Request, response: Response) => {
-  const { id } = request.params;
+// Update a Card by ID
+export const updateCard = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { title, date, boardId } = req.body;
 
-  const existingId = await prisma.card.findUnique({ where: { id: String(id) } })
-
-  if (!existingId) {
-    throw new Error('Card não encontrado');
+  try {
+    const card = await prisma.card.update({
+      where: { id: Number(id) },
+      data: { title, date, board: { connect: { id: boardId } } },
+    });
+    res.status(200).json(card);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating card' });
   }
+};
 
-  await prisma.card.delete({
-    where: {
-      id: String(id)
-    }
-  });
-
-  response.status(200).json({ message: "Card deletado com sucesso!" });
+// Delete a Card by ID
+export const deleteCard = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const card = await prisma.card.delete({ where: { id: Number(id) } });
+    res.status(201).json(card);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error deleting card' });
+  }
 };

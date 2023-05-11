@@ -1,84 +1,79 @@
 import { Request, Response } from 'express';
-import { randomUUID } from 'node:crypto';
 
 import prisma from '../config';
 
-export const getBoard = async (request: Request, response: Response) => {
-  const Board = await prisma.board.findMany();
-
-  response.status(200).json(Board);
-}
-
-export const getBoardById = async (request: Request, response: Response) => {
-  const { id } = request.params;
-  
-  const board = await prisma.board.findUnique({ where: { id: String(id) } });
-  
-  response.status(200).json(board);
+// Get all boards
+export const getBoards = async (req: Request, res: Response) => {
+  try {
+    const boards = await prisma.board.findMany({
+      include: { cards: { include: { labels: true, tasks: true } } },
+    });
+    res.json(boards);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error getting boards' });
+  }
 };
 
-export const createBoard = async (request: Request, response: Response) => {
-  const id = randomUUID();
-  const {
-    name,
-    email,
-    password,
-    area
-  } = request.body;
-
-  if (!name || !email || !password || !area) {
-    return response.status(400).json({ error: 'Todos os campos tem que estar preenchidos' })
+// Create a new board
+export const createBoard = async (req: Request, res: Response) => {
+  const { title } = req.body;
+  try {
+    const board = await prisma.board.create({
+      data: { title },
+      include: { cards: { include: { labels: true, tasks: true } } },
+    });
+    res.json(board);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error creating board' });
   }
-
-  const board = await prisma.board.create({
-    data: {
-      id
-    }
-  });
-
-  response.status(201).json(board);
 };
 
-export const updateBoard = async (request: Request, response: Response) => {
-  const { id } = request.params;
-
-  const existingId = await prisma.board.findUnique({ where: { id: String(id) } })
-
-  if (!existingId) {
-    throw new Error('Board não encontrado');
+// Get a board by ID
+export const getBoardById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const board = await prisma.board.findUnique({
+      where: { id: parseFloat(id) },
+      include: { cards: { include: { labels: true, tasks: true } } },
+    });
+    if (!board) return res.status(404).json({ message: 'Board not found' });
+    res.json(board);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error getting board' });
   }
-
-  const {
-    email,
-    password
-  } = request.body;
-
-  await prisma.board.update({
-    where: {
-      id: String(id)
-    }, data: {
-      email,
-      password
-    }
-  });
-
-  response.status(200).json({ message: "Board atualizado com sucesso!" });
 };
 
-export const deleteBoard = async (request: Request, response: Response) => {
-  const { id } = request.params;
-
-  const existingId = await prisma.board.findUnique({ where: { id: String(id) } })
-
-  if (!existingId) {
-    throw new Error('board não encontrado');
+// Update a board by ID
+export const updateBoardById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { title } = req.body;
+  try {
+    const updatedBoard = await prisma.board.update({
+      where: { id: parseFloat(id) },
+      data: { title },
+      include: { cards: { include: { labels: true, tasks: true } } },
+    });
+    res.json(updatedBoard);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error updating board' });
   }
+};
 
-  await prisma.board.delete({
-    where: {
-      id: String(id)
-    }
-  });
-
-  response.status(200).json({ message: "Board deletado com sucesso!" });
+// Delete a board by ID
+export const deleteBoardById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const deletedBoard = await prisma.board.delete({
+      where: { id: parseFloat(id) },
+      include: { cards: { include: { labels: true, tasks: true } } },
+    });
+    res.json(deletedBoard);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error deleting board' });
+  }
 };

@@ -15,11 +15,25 @@ import {
 } from './controllers/cardController';
 import {
   createBoard,
-  deleteBoard,
+  deleteBoardById,
   getBoardById,
-  getBoard,
-  updateBoard
+  getBoards,
+  updateBoardById
 } from './controllers/boardController';
+import {
+  deleteTasksById,
+  getTasksById,
+  getTasks,
+  updateTaskById,
+  createTask
+} from './controllers/tasksController';
+import {
+  createLabel,
+  deleteLabelById,
+  getLabelById,
+  getLabel,
+  updateLabelById
+} from './controllers/labelController';
 
 const router = express.Router();
 
@@ -35,10 +49,22 @@ router.post('/cards', createCard);
 router.put('/cards/:id', updateCard);
 router.delete('/users/:id', deleteCard);
 
-router.get('/users', getBoard);
-router.get('/users/:id', getBoardById);
-router.post('/users', createBoard);
-router.put('/users/:id', updateBoard );
-router.delete('/users/:id', deleteBoard);
+router.get('/board', getBoards);
+router.get('/board/:id', getBoardById);
+router.post('/board', createBoard);
+router.put('/board/:id', updateBoardById );
+router.delete('/board/:id', deleteBoardById);
+
+router.get('/tasks', getTasks);
+router.get('/tasks/:id', getTasksById);
+router.post('/tasks', createTask);
+router.put('/tasks/:id', updateTaskById );
+router.delete('/tasks/:id', deleteTasksById);
+
+router.get('/label', getLabel);
+router.get('/label/:id', getLabelById);
+router.post('/label', createLabel);
+router.put('/label/:id', updateLabelById );
+router.delete('/label/:id', deleteLabelById);
 
 export default router;

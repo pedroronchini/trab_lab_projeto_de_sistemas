@@ -6,8 +6,41 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider = "mysql"
+  url      = "mysql://root:@localhost:3306/workflow"
+}
+
+
+model Board {
+  id    Int   @id @default(autoincrement())
+  title String
+  cards Card[]
+}
+
+model Card {
+  id       Int   @id @default(autoincrement())
+  title    String
+  labels   Label[]
+  date     String?
+  tasks    Task[]
+  boardId  Int
+  board    Board   @relation(fields: [boardId], references: [id])
+}
+
+model Label {
+  id        Int   @id @default(autoincrement())
+  color     String
+  text      String
+  cardId    Int
+  card      Card    @relation(fields: [cardId], references: [id])
+}
+
+model Task {
+  id         Int   @id @default(autoincrement())
+  completed Boolean
+  text      String
+  cardId    Int
+  card      Card    @relation(fields: [cardId], references: [id])
 }
 
 model User {
@@ -19,15 +52,3 @@ model User {
   updated_at DateTime @default(now())
   created_at DateTime @default(now())
 }
-
-model Card {
-  id String @id
-  title String
-  labels String
-  tasks String
-  date DateTime
-  desc String
-  updated_at DateTime @default(now())
-  created_at DateTime @default(now())
-}
-
