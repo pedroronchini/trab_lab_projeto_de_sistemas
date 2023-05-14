@@ -6,6 +6,7 @@ import prisma from '../config';
 export const getTasks = async (req: Request, res: Response) => {
   try {
     const tasks = await prisma.task.findMany();
+
     res.status(200).json(tasks);
   } catch (error) {
     res.status(500).json({ message: 'Error getting tasks' });
@@ -14,12 +15,21 @@ export const getTasks = async (req: Request, res: Response) => {
 
 // Create a new board
 export const createTask = async (req: Request, res: Response) => {
-  const { completed, text, cardId } = req.body;
+  const { 
+    completed, 
+    text, 
+    cardId 
+  } = req.body;
 
   try {
     const task = await prisma.task.create({
-      data: { completed, text, cardId },
+      data: { 
+        completed, 
+        text, 
+        cardId 
+      },
     });
+
     res.status(201).json(task);
   } catch (error) {
     res.status(500).json({ message: 'Error creating task' });
@@ -29,8 +39,12 @@ export const createTask = async (req: Request, res: Response) => {
 // Get a Card by ID
 export const getTasksById = async (req: Request, res: Response) => {
   const { id } = req.params;
+  
   try {
-    const tasks = await prisma.task.findUnique({ where: { id: Number(id) } });
+    const tasks = await prisma.task.findUnique({ 
+      where: { id: Number(id) } 
+    });
+    
     if (!tasks) { 
       throw Error('tasks not found');
     }
@@ -44,14 +58,23 @@ export const getTasksById = async (req: Request, res: Response) => {
 // Update a Card by ID
 export const updateTaskById = async (req: Request, res: Response) => {
   const { id } = req.params;
-   const { completed, text, cardId } = req.body;
+  const { 
+    completed, 
+    text, 
+    cardId 
+  } = req.body;
 
   try {
     
     const task = await prisma.task.update({
         where: { id: Number(id) },
-        data: { completed, text, cardId },
+        data: { 
+          completed, 
+          text, 
+          cardId 
+        },
     });
+
     res.status(200).json(task);
   } catch (error) {
     res.status(500).json({ message: 'Error updating task' });
@@ -61,11 +84,12 @@ export const updateTaskById = async (req: Request, res: Response) => {
 // Delete a Card by ID
 export const deleteTasksById = async (req: Request, res: Response) => {
   const { id } = req.params;
+
   try {
-    
     const task = await prisma.task.delete({
       where: { id: Number(id) },
     });
+
     res.json(task);
   } catch (error) {
     console.error(error);
