@@ -15,6 +15,6 @@ describe('Card update', () => {
       .expect(200);
 
     expect(response.body).toHaveProperty('id');
-    expect(response.body.title).toBe(updateCard);
+    expect(response.body).toBe(updateCard);
   });
 });

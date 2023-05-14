@@ -40,6 +40,7 @@ export const createLabel = async (req: Request, res: Response) => {
 // Get a Card by ID
 export const getLabelById = async (req: Request, res: Response) => {
   const { id } = req.params;
+  
   try {
     const label = await prisma.label.findUnique({
       where: { id: Number(id) }
@@ -54,10 +55,13 @@ export const getLabelById = async (req: Request, res: Response) => {
 // Update a Card by ID
 export const updateLabelById = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { color, text, cardId } = req.body;
+  const { 
+    color, 
+    text, 
+    cardId 
+  } = req.body;
 
   try {
-    
     const label = await prisma.label.update({
       where: { id: Number(id) },
       data: {
@@ -78,7 +82,6 @@ export const deleteLabelById = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    
     const label = await prisma.label.delete({
       where: { id: Number(id) },
     });

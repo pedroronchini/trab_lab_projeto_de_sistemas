@@ -16,7 +16,7 @@ describe('Card create', () => {
 
     expect(response.body).toHaveProperty('id');
     expect(response.body.title).toBe(newCard.title);
-    expect(response.body.title).toBe(newCard.date);
-    expect(response.body.title).toBe(newCard.boardId);
+    expect(response.body.date).toBe(newCard.date);
+    expect(response.body.boardId).toBe(newCard.boardId);
   });
 });
