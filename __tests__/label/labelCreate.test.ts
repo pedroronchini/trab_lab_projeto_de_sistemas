@@ -1,5 +1,5 @@
 import request from 'supertest';
-import app from '../src/app';
+import app from '../../src/app';
 
 describe('Label create', () => {
   it('should create a new label', async () => {

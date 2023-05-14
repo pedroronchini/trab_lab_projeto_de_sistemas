@@ -1,11 +1,11 @@
 import request from 'supertest';
-import app from '../src/app';
+import app from '../../src/app';
 
-describe('Label delete', () => {
-  it('should delete a label', async () => {
+describe('Task delete', () => {
+  it('should delete a task', async () => {
 
     const response = await request(app)
-      .put('/label/1')
+      .put('/task/1')
       .expect(200);
 
     expect(response.body).toBe('id');
