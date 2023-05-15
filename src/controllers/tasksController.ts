@@ -26,7 +26,11 @@ export const createTask = async (req: Request, res: Response) => {
       data: { 
         completed, 
         text, 
-        cardId 
+        card: {
+          connect: {
+            id: Number(cardId)
+          }
+        } 
       },
     });
 
@@ -71,7 +75,11 @@ export const updateTaskById = async (req: Request, res: Response) => {
         data: { 
           completed, 
           text, 
-          cardId 
+          card: {
+            connect: {
+              id: Number(cardId)
+            }
+          } 
         },
     });
 
@@ -87,7 +95,9 @@ export const deleteTasksById = async (req: Request, res: Response) => {
 
   try {
     const task = await prisma.task.delete({
-      where: { id: Number(id) },
+      where: { 
+        id: Number(id) 
+      },
     });
 
     res.json(task);
