@@ -47,7 +47,7 @@ router.get('/cards', getCards);
 router.get('/cards/:id', getCardById);
 router.post('/cards', createCard);
 router.put('/cards/:id', updateCard);
-router.delete('/users/:id', deleteCard);
+router.delete('/cards/:id', deleteCard);
 
 router.get('/board', getBoards);
 router.get('/board/:id', getBoardById);
