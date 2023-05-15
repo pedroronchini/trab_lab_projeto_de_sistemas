@@ -28,7 +28,7 @@ export const createCard = async (req: Request, res: Response) => {
         date, 
         board: { 
           connect: { 
-            id: boardId 
+            id: Number(boardId) 
           } 
         } 
       } 
@@ -76,7 +76,7 @@ export const updateCard = async (req: Request, res: Response) => {
         date, 
         board: { 
           connect: { 
-            id: boardId 
+            id: Number(boardId) 
           } 
         } 
       },
