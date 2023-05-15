@@ -27,7 +27,11 @@ export const createLabel = async (req: Request, res: Response) => {
       data: {
         color,
         text,
-        card: { connect: { id: cardId } },
+        card: { 
+          connect: { 
+            id: Number(cardId) 
+          } 
+        },
       },
     });
 
@@ -67,7 +71,11 @@ export const updateLabelById = async (req: Request, res: Response) => {
       data: {
         color,
         text,
-        card: { connect: { id: cardId } },
+        card: { 
+          connect: { 
+            id: Number(cardId) 
+          } 
+        },
       },
     });
     
