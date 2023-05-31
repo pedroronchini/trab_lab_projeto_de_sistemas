@@ -16,10 +16,10 @@ export const getLabel = async (req: Request, res: Response) => {
 
 // Create a new board
 export const createLabel = async (req: Request, res: Response) => {
-  const { 
-    color, 
-    text, 
-    cardId 
+  const {
+    color,
+    text,
+    cardId
   } = req.body;
 
   try {
@@ -27,10 +27,10 @@ export const createLabel = async (req: Request, res: Response) => {
       data: {
         color,
         text,
-        card: { 
-          connect: { 
-            id: Number(cardId) 
-          } 
+        card: {
+          connect: {
+            id: Number(cardId)
+          }
         },
       },
     });
@@ -44,7 +44,7 @@ export const createLabel = async (req: Request, res: Response) => {
 // Get a Card by ID
 export const getLabelById = async (req: Request, res: Response) => {
   const { id } = req.params;
-  
+
   try {
     const label = await prisma.label.findUnique({
       where: { id: Number(id) }
@@ -59,10 +59,10 @@ export const getLabelById = async (req: Request, res: Response) => {
 // Update a Card by ID
 export const updateLabelById = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { 
-    color, 
-    text, 
-    cardId 
+  const {
+    color,
+    text,
+    cardId
   } = req.body;
 
   try {
@@ -71,14 +71,14 @@ export const updateLabelById = async (req: Request, res: Response) => {
       data: {
         color,
         text,
-        card: { 
-          connect: { 
-            id: Number(cardId) 
-          } 
+        card: {
+          connect: {
+            id: Number(cardId)
+          }
         },
       },
     });
-    
+
     res.status(200).json(label);
   } catch (error) {
     res.status(500).json({ message: 'Error updating card' });

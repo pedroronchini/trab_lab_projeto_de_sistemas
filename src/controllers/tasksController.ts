@@ -15,22 +15,22 @@ export const getTasks = async (req: Request, res: Response) => {
 
 // Create a new board
 export const createTask = async (req: Request, res: Response) => {
-  const { 
-    completed, 
-    text, 
-    cardId 
+  const {
+    completed,
+    text,
+    cardId
   } = req.body;
 
   try {
     const task = await prisma.task.create({
-      data: { 
-        completed, 
-        text, 
+      data: {
+        completed,
+        text,
         card: {
           connect: {
             id: Number(cardId)
           }
-        } 
+        }
       },
     });
 
@@ -43,13 +43,13 @@ export const createTask = async (req: Request, res: Response) => {
 // Get a Card by ID
 export const getTasksById = async (req: Request, res: Response) => {
   const { id } = req.params;
-  
+
   try {
-    const tasks = await prisma.task.findUnique({ 
-      where: { id: Number(id) } 
+    const tasks = await prisma.task.findUnique({
+      where: { id: Number(id) }
     });
-    
-    if (!tasks) { 
+
+    if (!tasks) {
       throw Error('tasks not found');
     }
 
@@ -62,25 +62,25 @@ export const getTasksById = async (req: Request, res: Response) => {
 // Update a Card by ID
 export const updateTaskById = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { 
-    completed, 
-    text, 
-    cardId 
+  const {
+    completed,
+    text,
+    cardId
   } = req.body;
 
   try {
-    
+
     const task = await prisma.task.update({
-        where: { id: Number(id) },
-        data: { 
-          completed, 
-          text, 
-          card: {
-            connect: {
-              id: Number(cardId)
-            }
-          } 
-        },
+      where: { id: Number(id) },
+      data: {
+        completed,
+        text,
+        card: {
+          connect: {
+            id: Number(cardId)
+          }
+        }
+      },
     });
 
     res.status(200).json(task);
@@ -95,8 +95,8 @@ export const deleteTasksById = async (req: Request, res: Response) => {
 
   try {
     const task = await prisma.task.delete({
-      where: { 
-        id: Number(id) 
+      where: {
+        id: Number(id)
       },
     });
 

@@ -6,16 +6,16 @@ import prisma from '../config';
 export const getBoards = async (req: Request, res: Response) => {
   try {
     const boards = await prisma.board.findMany({
-      include: { 
-        cards: { 
-          include: { 
-            labels: true, 
-            tasks: true 
-          } 
-        } 
+      include: {
+        cards: {
+          include: {
+            labels: true,
+            tasks: true
+          }
+        }
       },
     });
-    
+
     res.json(boards);
 
   } catch (error) {
@@ -30,16 +30,16 @@ export const createBoard = async (req: Request, res: Response) => {
   try {
 
     const board = await prisma.board.create({
-      data: { 
-        title 
+      data: {
+        title
       },
-      include: { 
-        cards: { 
-          include: { 
-            labels: true, 
-            tasks: true 
-          } 
-        } 
+      include: {
+        cards: {
+          include: {
+            labels: true,
+            tasks: true
+          }
+        }
       },
     });
 
@@ -57,15 +57,15 @@ export const getBoardById = async (req: Request, res: Response) => {
   try {
 
     const board = await prisma.board.findUnique({
-      where: { 
-        id: parseInt(id) 
+      where: {
+        id: parseInt(id)
       },
-      include: { 
-        cards: { 
-          include: { 
+      include: {
+        cards: {
+          include: {
             labels: true,
-            tasks: true 
-          } 
+            tasks: true
+          }
         }
       },
     });
@@ -83,22 +83,22 @@ export const getBoardById = async (req: Request, res: Response) => {
 export const updateBoardById = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { title } = req.body;
-  
+
   try {
     const updatedBoard = await prisma.board.update({
-      where: { 
-        id: parseInt(id) 
+      where: {
+        id: parseInt(id)
       },
-      data: { 
-        title 
+      data: {
+        title
       },
-      include: { 
-        cards: { 
-          include: { 
-            labels: true, 
-            tasks: true 
-          } 
-        } 
+      include: {
+        cards: {
+          include: {
+            labels: true,
+            tasks: true
+          }
+        }
       },
     });
 
@@ -115,16 +115,16 @@ export const deleteBoardById = async (req: Request, res: Response) => {
   try {
 
     const deletedBoard = await prisma.board.delete({
-      where: { 
-        id: parseInt(id) 
+      where: {
+        id: parseInt(id)
       },
       include: {
-        cards: { 
-          include: { 
-            labels: true, 
-            tasks: true 
-          } 
-        } 
+        cards: {
+          include: {
+            labels: true,
+            tasks: true
+          }
+        }
       },
     });
 

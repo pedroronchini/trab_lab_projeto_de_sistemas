@@ -6,15 +6,15 @@ import prisma from '../config';
 
 export const getUsers = async (request: Request, response: Response) => {
   const users = await prisma.user.findMany();
-  
+
   response.status(200).json(users);
 };
 
 export const getUserById = async (request: Request, response: Response) => {
   const { id } = request.params;
-  
+
   const user = await prisma.user.findUnique({ where: { id: String(id) } });
-  
+
   response.status(200).json(user);
 };
 

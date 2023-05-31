@@ -15,23 +15,23 @@ export const getCards = async (req: Request, res: Response) => {
 
 // Create a new board
 export const createCard = async (req: Request, res: Response) => {
-  const { 
-    title, 
-    date, 
-    boardId 
+  const {
+    title,
+    date,
+    boardId
   } = req.body;
 
   try {
-    const card = await prisma.card.create({ 
-      data: { 
-        title, 
-        date, 
-        board: { 
-          connect: { 
-            id: Number(boardId) 
-          } 
-        } 
-      } 
+    const card = await prisma.card.create({
+      data: {
+        title,
+        date,
+        board: {
+          connect: {
+            id: Number(boardId)
+          }
+        }
+      }
     });
 
     res.status(201).json(card);
@@ -47,7 +47,7 @@ export const getCardById = async (req: Request, res: Response) => {
   try {
     const card = await prisma.card.findUnique({ where: { id: Number(id) } });
 
-    if (!card) { 
+    if (!card) {
       throw Error('Card not found');
     }
 
@@ -60,25 +60,25 @@ export const getCardById = async (req: Request, res: Response) => {
 // Update a Card by ID
 export const updateCard = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { 
-    title, 
-    date, 
-    boardId 
+  const {
+    title,
+    date,
+    boardId
   } = req.body;
 
   try {
     const card = await prisma.card.update({
-      where: { 
-        id: Number(id) 
+      where: {
+        id: Number(id)
       },
-      data: { 
-        title, 
-        date, 
-        board: { 
-          connect: { 
-            id: Number(boardId) 
-          } 
-        } 
+      data: {
+        title,
+        date,
+        board: {
+          connect: {
+            id: Number(boardId)
+          }
+        }
       },
     });
 
@@ -93,10 +93,10 @@ export const deleteCard = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    const card = await prisma.card.delete({ 
-      where: { 
-        id: Number(id) 
-      } 
+    const card = await prisma.card.delete({
+      where: {
+        id: Number(id)
+      }
     });
 
     res.status(201).json(card);

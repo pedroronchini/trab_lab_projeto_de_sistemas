@@ -52,19 +52,19 @@ router.delete('/cards/:id', deleteCard);
 router.get('/board', getBoards);
 router.get('/board/:id', getBoardById);
 router.post('/board', createBoard);
-router.put('/board/:id', updateBoardById );
+router.put('/board/:id', updateBoardById);
 router.delete('/board/:id', deleteBoardById);
 
 router.get('/tasks', getTasks);
 router.get('/tasks/:id', getTasksById);
 router.post('/tasks', createTask);
-router.put('/tasks/:id', updateTaskById );
+router.put('/tasks/:id', updateTaskById);
 router.delete('/tasks/:id', deleteTasksById);
 
 router.get('/label', getLabel);
 router.get('/label/:id', getLabelById);
 router.post('/label', createLabel);
-router.put('/label/:id', updateLabelById );
+router.put('/label/:id', updateLabelById);
 router.delete('/label/:id', deleteLabelById);
 
 export default router;
