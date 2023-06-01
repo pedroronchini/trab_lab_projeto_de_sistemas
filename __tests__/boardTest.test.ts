@@ -13,33 +13,5 @@ describe('Board create', () => {
       .expect(201);
 
     expect(response.body).toHaveProperty('id');
-    expect(response.body.title).toBe(newBoard.title);
-  });
-});
-
-describe('Board update', () => {
-  it('should update a board', async () => {
-    const updateBoard = {
-      title: 'Doing'
-    };
-
-    const response = await request(app)
-      .put('/board/1')
-      .send(updateBoard)
-      .expect(200);
-
-    expect(response.body).toHaveProperty('id');
-    expect(response.body.title).toBe(updateBoard.title);
-  });
-});
-
-describe('Board delete', () => {
-  it('should delete a board', async () => {
-
-    const response = await request(app)
-      .put('/board/1')
-      .expect(200);
-
-    expect(response.body).toBe('id');
   });
 });

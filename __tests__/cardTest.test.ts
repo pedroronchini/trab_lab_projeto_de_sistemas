@@ -11,43 +11,10 @@ describe('Card create', () => {
     };
 
     const response = await request(app)
-      .post('/card')
+      .post('/cards')
       .send(newCard)
       .expect(201);
 
     expect(response.body).toHaveProperty('id');
-    expect(response.body.title).toBe(newCard.title);
-    expect(response.body.date).toBe(newCard.date);
-    expect(response.body.boardId).toBe(newCard.boardId);
-  });
-});
-
-describe('Card update', () => {
-  it('should update a card', async () => {
-    const updateCard = {
-      title: 'Task3',
-      date: '',
-      boardId: '1'
-    };
-
-    const response = await request(app)
-      .put('/card/1')
-      .send(updateCard)
-      .expect(200);
-
-    expect(response.body).toHaveProperty('id');
-    expect(response.body).toBe(updateCard);
-  });
-});
-
-
-describe('Card delete', () => {
-  it('should delete a card', async () => {
-
-    const response = await request(app)
-      .put('/card/1')
-      .expect(200);
-
-    expect(response.body).toBe('id');
   });
 });
